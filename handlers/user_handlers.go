@@ -8,6 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetUsers godoc
+// @Summary Get all users
+// @Description Get a list of all users from the database
+// @Tags users
+// @Accept json
+// @Produce json
+// @Success 200 {array} models.User
+// @Failure 500 {string} string "error"
+// @Failure 404 {string} string "error"
+// @Router /users [get]
 func GetUsers(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		rows, err := db.Query("SELECT id, name, email, created_at FROM users")
@@ -33,6 +43,18 @@ func GetUsers(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
+// GetUser godoc
+// @Summary Get a specific user
+// @Summary Get a users
+// @Description Get a user from the database based on id
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Success 201 {object} models.User
+// @Failure 400 {string} string "error"
+// @Failure 500 {string} string "error"
+// @Router /users/{id} [get]
 func GetUser(db *sql.DB) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -49,6 +71,17 @@ func GetUser(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
+// CreateUser godoc
+// @Summary Create a new user
+// @Description Create a new user with name and email
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body models.User true "User Data"
+// @Success 201 {object} models.User
+// @Failure 400 {string} string "error"
+// @Failure 500 {string} string "error"
+// @Router /users [post]
 func CreateUser(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var newUser models.User
@@ -75,6 +108,18 @@ func CreateUser(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
+// UpdateUser godoc
+// @Summary Update a user
+// @Description Update a user's name and email
+// @Tags users
+// @Accept json
+// @produce json
+// @Param id path string true "User ID"
+// @Param user body models.User true "Updated User Data"
+// @Success 201 {object} models.User
+// @Failure 400 {string} string "error"
+// @Failure 500 {string} string "error"
+// @Router /users/{id} [put]
 func UpdateUser(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
@@ -98,6 +143,17 @@ func UpdateUser(db *sql.DB) gin.HandlerFunc {
 	}
 }
 
+// DeleteUser godoc
+// @Summary Delete a user
+// @Description Delete a user by ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param id path string true "User ID"
+// @Succeess 200 {string} string {"message" : "Successfully deleted user"}
+// @Failure 500 {string} string "error"
+// @Failure 404 {string} string "error"
+// @Router /users/{id} [delete]
 func DeleteUser(db *sql.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
